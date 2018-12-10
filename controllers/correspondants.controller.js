@@ -3,9 +3,16 @@ const Correspondant = require('../models/correspondant.model');
 const ApiError = require('../models/api-error.model');
 const utils = require('../lib/utils');
 
+const basicProyection = {
+  __v: false,
+  _id: false,
+  createdAt: false,
+  updatedAt: false,
+};
+
 module.exports.list = async (req, res, next) => {
   try {
-    const result = await Correspondant.find();
+    const result = await Correspondant.find({}, basicProyection);
     res.json(result);
   } catch(error) {
     next(error);
@@ -15,7 +22,7 @@ module.exports.list = async (req, res, next) => {
 module.exports.get = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const result = await Correspondant.findOne({ slug });
+    const result = await Correspondant.findOne({ slug }, basicProyection);
     if (result) {
       res.json(result);
     } else {

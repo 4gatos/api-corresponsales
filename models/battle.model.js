@@ -21,6 +21,24 @@ const battleSchema = new Schema({
   slug: {
     type: String,
     required: [true, 'Battle needs a slug']
+  },
+  history: {
+    type: String,
+    required: [true, 'Battle needs a history']
+  },
+  geographicDescription: {
+    type: String,
+    required: [true, 'Battle needs a geographicDescription']
+  },
+  geographicLng: {
+    type: Number,
+  },
+  geographicLat: {
+    type: Number,
+  },
+  importantPeople: {
+    type: String,
+    required: [true, 'Battle needs important people']
   }
 }, {
   timestamps: true,
