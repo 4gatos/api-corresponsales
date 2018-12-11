@@ -22,6 +22,25 @@ const correspondantSchema = new Schema({
     type: String,
     required: [true, 'Correspondant needs a slug']
   },
+  historicDetails: {
+    type: String,
+    required: [true, 'Correspondant needs a history']
+  },
+  geographicDescription: {
+    type: String,
+    required: [true, 'Correspondant needs a geographic description']
+  },
+  coordinates : [{
+    type: Array,
+  }],
+  documentation: {
+    type: String,
+    required: [true, 'Correspondant needs a documentation']
+  },
+  documentationLinks: [{
+    type: Map,
+    of: String
+  }],
   battle: {
     type: Schema.Types.ObjectId,
     ref: 'Battle',

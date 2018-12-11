@@ -35,9 +35,22 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { name, country, date, newspaper, battle } = req.body;
+    const { name, country, date, newspaper, historicDetails, geographicDescription, coordinates, documentation, documentationLinks, battle } = req.body;
     const slug = utils.createSlug(name);
-    const correspondantBody = { name, country, date, newspaper, slug, battle };
+    const correspondantBody = {
+      name,
+      country,
+      date,
+      newspaper,
+      geographicDescription,
+      historicDetails,
+      coordinates,
+      documentation,
+      ...(coordinates && { coordinates }),
+      ...(documentationLinks && { documentationLinks }),
+      slug,
+      ...(battle && { battle }),
+    };
     const correspondant = new Correspondant(correspondantBody);
     const result = await correspondant.save();
     res.status(201).json(result);
@@ -67,13 +80,19 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { name, country, date, newspaper, battle } = req.body;
+    const { name, country, date, newspaper, battle, historicDetails, coordinates, documentation, documentationLinks, geographicDescription } = req.body;
+    console.log('coordinates', coordinates);
     const correspondantBody = {
       ...(name && { name }),
       ...(country && { country }),
       ...(date && { date }),
       ...(newspaper && { newspaper }),
-      ...(battle && { battle }),
+      ...(historicDetails && { historicDetails }),
+      ...(coordinates && { coordinates }),
+      ...(documentation && { documentation }),
+      ...(documentationLinks && { documentationLinks }),
+      ...(geographicDescription && { geographicDescription }),
+      ...(battle && { battle })
     };
 
     const result = await Correspondant.findOneAndUpdate({ slug }, { $set: correspondantBody }, { new: true });
