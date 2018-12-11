@@ -1,11 +1,11 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const corsConfig = require('./configs/cors.config');
 const session = require('express-session');
 const passport = require('passport');
+const corsConfig = require('./configs/cors.config');
 
 require('dotenv').config();
 require('./configs/db.config');
@@ -22,16 +22,16 @@ app.use(cors(corsConfig));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: process.env.COOKIE_SECRET || 'Super Secret',
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 2419200000
+    maxAge: 3600000
   }
 }));
 

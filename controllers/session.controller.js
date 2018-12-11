@@ -27,6 +27,18 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.destroy = (req, res, next) => {
+  console.log('deeestroy', req.session.id);
+  req.session.destroy();
   req.logout();
   res.status(204).json();
+};
+
+module.exports.isAuthenticated = (req, res, next) => {
+  console.log(req.session);
+  console.log('isAuthenticated', req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    res.status(201).json(req.user);
+  } else {
+    next(new ApiError('Unauthorized', 403));
+  }
 };

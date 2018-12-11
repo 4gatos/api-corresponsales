@@ -1,5 +1,6 @@
 const originsAllowed = process.env.CORS_ORIGINS || [
   'http://localhost:3000',
+  'http://localhost:3006',
   'http://localhost:4200'
 ];
 
