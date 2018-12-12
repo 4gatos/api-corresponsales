@@ -18,6 +18,10 @@ const correspondantSchema = new Schema({
     type: String,
     required: [true, 'Correspondant needs a newspaper']
   },
+  mainImg: {
+    type: String,
+    required: [true, 'Correspondant needs a main image']
+  },
   slug: {
     type: String,
     required: [true, 'Correspondant needs a slug']
