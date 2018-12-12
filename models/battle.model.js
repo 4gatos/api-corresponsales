@@ -18,6 +18,10 @@ const battleSchema = new Schema({
     type: String,
     required: [true, 'Battle needs a duration']
   },
+  mainImg: {
+    type: String,
+    required: [true, 'Battle needs a main image']
+  },
   slug: {
     type: String,
     required: [true, 'Battle needs a slug']

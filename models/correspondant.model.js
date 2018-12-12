@@ -22,6 +22,10 @@ const correspondantSchema = new Schema({
     type: String,
     required: [true, 'Correspondant needs a main image']
   },
+  backgroundImg: {
+    type: String,
+    required: [true, 'Correspondant needs a background image']
+  },
   slug: {
     type: String,
     required: [true, 'Correspondant needs a slug']
@@ -40,6 +44,9 @@ const correspondantSchema = new Schema({
   documentation: {
     type: String,
     required: [true, 'Correspondant needs a documentation']
+  },
+  documentationImg: {
+    type: String,
   },
   documentationLinks: [{
     type: Map,

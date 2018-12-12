@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Battle = require('../models/battle.model');
 const ApiError = require('../models/api-error.model');
 const utils = require('../lib/utils');
+const Mailer = require('../models/email.model');
 
 const basicProyection = {
   __v: false,
@@ -13,6 +14,15 @@ const basicProyection = {
 module.exports.list = async (req, res, next) => {
   try {
     const result = await Battle.find({}, basicProyection);
+    res.json(result);
+  } catch(error) {
+    next(error);
+  }
+}
+
+module.exports.getNames = async (req, res, next) => {
+  try {
+    const result = await Battle.find({}, 'id name');
     res.json(result);
   } catch(error) {
     next(error);
@@ -35,11 +45,19 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { name, place, date, duration, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
     const slug = utils.createSlug(name);
-    const battleBody = { name, place, date, duration, slug, history, geographicLng, geographicLat, geographicDescription, importantPeople };
+    const battleBody = { name, place, date, duration, mainImg, slug, history, geographicLng, geographicLat, geographicDescription, importantPeople };
     const battle = new Battle(battleBody);
     const result = await battle.save();
+    const mail = new Mailer();
+    const message = {
+      from: 'Admin <sender@server.com>',
+      to: 'plasocortabitarte@gmail.com',
+      subject: 'Nueva batalla',
+      text: `Se ha añadido una nueva batalla con el nombre de ${battle.name}`
+  };
+    mail.sendNewMail(message);
     res.status(201).json(result);
   } catch(error) {
     if (error instanceof mongoose.Error.ValidationError) {
@@ -67,12 +85,13 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { name, place, date, duration, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
     const battleBody = {
       ...(name && { name }),
       ...(place && { place }),
       ...(date && { date }),
       ...(duration && { duration }),
+      ...(mainImg && { mainImg }),
       ...(history && { history }),
       ...(geographicDescription && { geographicDescription }),
       ...(geographicLng && { geographicLng }),
