@@ -18,7 +18,7 @@ const correspondantsRoutes = require('./routes/correspondants.routes');
 
 const app = express();
 
-app.use(cors(corsConfig));
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
