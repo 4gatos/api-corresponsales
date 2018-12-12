@@ -1,7 +1,5 @@
-const originsAllowed = process.env.CORS_ORIGINS || [
-  'http://localhost:3000',
-  'http://localhost:3006',
-  'http://localhost:4200'
+const originsAllowed = [
+  'https://gestor-corresponsales.herokuapp.com/'
 ];
 
 module.exports = {
