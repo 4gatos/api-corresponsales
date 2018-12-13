@@ -20,6 +20,15 @@ module.exports.list = async (req, res, next) => {
   }
 }
 
+module.exports.listBasic = async (req, res, next) => {
+  try {
+    const result = await Correspondant.find({}, 'id name backgroundImg mainImg slug historicDetails')
+    res.json(result);
+  } catch(error) {
+    next(error);
+  }
+}
+
 module.exports.get = async (req, res, next) => {
   try {
     const slug = req.params.slug;
