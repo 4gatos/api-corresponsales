@@ -6,6 +6,7 @@ const adminMiddleware = require('../middleware/admin.middleware');
 
 router.get('/', battlesController.list);
 router.get('/names', battlesController.getNames);
+router.get('/basic', battlesController.listBasic);
 router.get('/:slug', battlesController.get);
 router.post('/', secureMiddleware.isAuthenticated, battlesController.create);
 router.delete('/:slug', adminMiddleware.isAdmin, battlesController.delete);
