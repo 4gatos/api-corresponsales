@@ -63,8 +63,8 @@ module.exports.create = async (req, res, next) => {
     const message = {
       from: 'Admin <sender@server.com>',
       to: 'plasocortabitarte@gmail.com',
-      subject: 'Nueva batalla',
-      text: `Se ha añadido una nueva batalla con el nombre de ${battle.name}`
+      subject: 'Nuevo hito',
+      text: `Se ha añadido un nuevo hito con el nombre de ${battle.name}`
   };
     mail.sendNewMail(message);
     res.status(201).json(result);
