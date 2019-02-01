@@ -3,7 +3,8 @@ const originsAllowed = [
   'https://gestor-corresponsales.herokuapp.com',
   'http://gestor-corresponsales.herokuapp.com',
   'http://app.corresponsalesdeguerra.com',
-  'http://app.corresponsalesdeguerra.com/'
+  'http://app.corresponsalesdeguerra.com/',
+  'http://localhost:3006'
 ];
 
 module.exports = {

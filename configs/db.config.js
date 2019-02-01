@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_NAME = process.env.DB_NAME;
+const DB_NAME = process.env.DB_NAME || 'corresponsales';
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/${DB_NAME}`;
 
 mongoose.Promise = Promise;

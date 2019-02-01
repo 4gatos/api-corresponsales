@@ -1,11 +1,13 @@
 const express = require('express');
 const path = require('path');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
+const MongoStore = require("connect-mongo")(session);
 const passport = require('passport');
 const corsConfig = require('./configs/cors.config');
+const mongoose= require('mongoose');
 
 require('dotenv').config();
 require('./configs/db.config');
@@ -22,17 +24,21 @@ app.use(cors(corsConfig));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: process.env.COOKIE_SECRET || 'Super Secret',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
     maxAge: 3600000
-  }
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
 }));
 
 app.use(passport.initialize());

@@ -25,14 +25,16 @@ module.exports.get = (req, res, next) => {
 }
 
 module.exports.create = (req, res, next) => {
-  console.log(req.user);
+  const { email, password, name, surname, phone, admin } = req.body;
   if (req.user.role === 'admin') {
-    User.findOne({ email: req.body.email })
+    User.findOne({ email: email })
       .then(user => {
         if (user) {
           next(new ApiError('User already registered', 400));
         } else {
-          user = new User(req.body);
+          user = new User({
+            email, password, name, surname, phone, ...(admin ? { role: 'admin' } : null)
+          });
           user.save()
             .then(() => {
               res.json(user);
@@ -53,8 +55,13 @@ module.exports.create = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   const id = req.params.id;
-  const { name, surname, phone } = req.body;
-  let updates = { name, surname, apt, phone };
+  const { name, surname, phone, admin } = req.body;
+  let updates = {
+    name,
+    surname,
+    phone,
+    ...(admin ? { role: 'admin' } : { role: 'user' })
+  }
 
   User.findByIdAndUpdate(id, { $set: updates }, { new: true })
     .then( user => {
@@ -71,4 +78,20 @@ module.exports.edit = (req, res, next) => {
         next(new ApiError(error.message, 500));
       }
     });
+}
+
+module.exports.delete = (req, res, next) => {
+  const { id } = req.params;
+  if (req.user.role === 'admin') {
+    User.findByIdAndDelete(id)
+      .then(user => {
+        if (user) {
+          res.status(204).json();
+        } else {
+          next(new ApiError('User not found', 404));
+        }
+      })
+  } else {
+    next(new ApiError('Unauthorized', 403));
+  }
 }
