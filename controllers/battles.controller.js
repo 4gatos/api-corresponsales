@@ -57,7 +57,7 @@ module.exports.approve = async (req, res, next) => {
   try {
     const result = await Battle.findOneAndUpdate({ slug }, { $set: { approved: true } }, { new: true })
     if (result) {
-      res.json(result);
+      res.status(201).json(result);
     } else {
       next(new ApiError(`Battle not found`, 404));
     }
@@ -72,7 +72,7 @@ module.exports.disapprove = async (req, res, next) => {
   try {
     const result = await Battle.findOneAndUpdate({ slug }, { $set: { approved: false } }, { new: true })
     if (result) {
-      res.json(result);
+      res.status(201).json(result);
     } else {
       next(new ApiError(`Battle not found`, 404));
     }
