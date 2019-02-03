@@ -22,12 +22,41 @@ module.exports.list = async (req, res, next) => {
 
 module.exports.listBasic = async (req, res, next) => {
   try {
-    const result = await Correspondant.find({}, 'id name backgroundImg mainImg slug historicDetails')
+    const result = await Correspondant.find({ approved: true }, 'id name backgroundImg mainImg slug historicDetails')
     res.json(result);
   } catch(error) {
     next(error);
   }
 }
+
+module.exports.approve = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await Correspondant.findOneAndUpdate({ slug }, { $set: { approved: true } }, { new: true })
+    if (result) {
+      res.status(201).json(result);
+    } else {
+      next(new ApiError(`Correspondant not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Correspondant not found`, 404));
+  }
+}
+
+module.exports.disapprove = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await Correspondant.findOneAndUpdate({ slug }, { $set: { approved: false } }, { new: true })
+    if (result) {
+      res.status(201).json(result);
+    } else {
+      next(new ApiError(`Correspondant not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Correspondant not found`, 404));
+  }
+}
+
 
 module.exports.get = async (req, res, next) => {
   try {

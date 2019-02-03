@@ -10,5 +10,7 @@ router.get('/:slug', correspondantsController.get);
 router.post('/', secureMiddleware.isAuthenticated, correspondantsController.create);
 router.delete('/:slug', adminMiddleware.isAdmin, correspondantsController.delete);
 router.put('/:slug', secureMiddleware.isAuthenticated, correspondantsController.edit);
+router.put('/:slug/approve', adminMiddleware.isAdmin, correspondantsController.approve);
+router.put('/:slug/disapprove', adminMiddleware.isAdmin, correspondantsController.disapprove);
 
 module.exports = router;
