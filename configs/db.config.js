@@ -5,7 +5,7 @@ const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/${DB_NAME}`;
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
     .then(() => {
-        console.info(`Connect to db ${DB_NAME}`);
+        console.info(`Connect to db ${DB_NAME} at ${MONGODB_URI}`);
     })
     .catch(error => {
         console.error(`Unable to connect to db ${DB_NAME}: ${error}`);
