@@ -29,6 +29,35 @@ module.exports.listBasic = async (req, res, next) => {
   }
 }
 
+module.exports.approve = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await Correspondant.findOneAndUpdate({ slug }, { $set: { approved: true } }, { new: true })
+    if (result) {
+      res.json(result);
+    } else {
+      next(new ApiError(`Correspondant not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Correspondant not found`, 404));
+  }
+}
+
+module.exports.disapprove = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await Correspondant.findOneAndUpdate({ slug }, { $set: { approved: false } }, { new: true })
+    if (result) {
+      res.json(result);
+    } else {
+      next(new ApiError(`Correspondant not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Correspondant not found`, 404));
+  }
+}
+
+
 module.exports.get = async (req, res, next) => {
   try {
     const slug = req.params.slug;

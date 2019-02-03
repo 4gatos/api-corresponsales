@@ -43,6 +43,10 @@ const battleSchema = new Schema({
   importantPeople: {
     type: String,
     required: [true, 'Battle needs important people']
+  },
+  approved: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true,

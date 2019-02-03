@@ -55,6 +55,10 @@ const correspondantSchema = new Schema({
   battle: {
     type: Schema.Types.ObjectId,
     ref: 'Battle',
+  },
+  approved: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true,

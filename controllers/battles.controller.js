@@ -52,11 +52,53 @@ module.exports.get = async (req, res, next) => {
   }
 }
 
+module.exports.approve = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await Battle.findOneAndUpdate({ slug }, { $set: { approved: true } }, { new: true })
+    if (result) {
+      res.json(result);
+    } else {
+      next(new ApiError(`Battle not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Battle not found`, 404));
+  }
+}
+
+module.exports.disapprove = async (req, res, next) => {
+  console.log('prueba');
+  const { slug } = req.params;
+  try {
+    const result = await Battle.findOneAndUpdate({ slug }, { $set: { approved: false } }, { new: true })
+    if (result) {
+      res.json(result);
+    } else {
+      next(new ApiError(`Battle not found`, 404));
+    }
+  } catch(error) {
+    next(new ApiError(`Battle not found`, 404));
+  }
+}
+
 module.exports.create = async (req, res, next) => {
   try {
     const { name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
     const slug = utils.createSlug(name);
-    const battleBody = { name, place, date, duration, mainImg, slug, history, geographicLng, geographicLat, geographicDescription, importantPeople };
+    const battleBody = {
+      name,
+      place,
+      date,
+      duration,
+      mainImg,
+      slug,
+      history,
+      geographicLng,
+      geographicLat,
+      geographicDescription,
+      importantPeople,
+      ...(req.user.role === 'admin' ? { approved: true } : { approved: false })
+    };
     const battle = new Battle(battleBody);
     const result = await battle.save();
     const mail = new Mailer();
