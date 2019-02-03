@@ -22,7 +22,7 @@ module.exports.list = async (req, res, next) => {
 
 module.exports.listBasic = async (req, res, next) => {
   try {
-    const result = await Correspondant.find({}, 'id name backgroundImg mainImg slug historicDetails')
+    const result = await Correspondant.find({ approved: true }, 'id name backgroundImg mainImg slug historicDetails')
     res.json(result);
   } catch(error) {
     next(error);

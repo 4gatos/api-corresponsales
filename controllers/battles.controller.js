@@ -31,7 +31,7 @@ module.exports.getNames = async (req, res, next) => {
 
 module.exports.listBasic = async (req, res, next) => {
   try {
-    const result = await Battle.find({}, 'id name mainImg slug history geographicLng geographicLat')
+    const result = await Battle.find({ approved: true }, 'id name mainImg slug history geographicLng geographicLat')
     res.json(result);
   } catch(error) {
     next(error);
