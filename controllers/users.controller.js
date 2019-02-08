@@ -26,7 +26,7 @@ module.exports.get = (req, res, next) => {
 
 module.exports.create = (req, res, next) => {
   const { email, password, name, surname, phone, admin } = req.body;
-  if (req.user.role === 'admin') {
+  if (req.user && req.user.role === 'admin') {
     User.findOne({ email: email })
       .then(user => {
         if (user) {
