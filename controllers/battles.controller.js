@@ -83,9 +83,10 @@ module.exports.disapprove = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
     const slug = utils.createSlug(name);
     const battleBody = {
+      otherFields,
       name,
       place,
       date,
@@ -136,8 +137,9 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
     const battleBody = {
+      ...(otherFields && { otherFields }),
       ...(name && { name }),
       ...(place && { place }),
       ...(date && { date }),

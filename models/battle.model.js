@@ -20,7 +20,7 @@ const battleSchema = new Schema({
   },
   mainImg: {
     type: String,
-    required: [true, 'Battle needs a main image']
+    // required: [true, 'Battle needs a main image']
   },
   slug: {
     type: String,
@@ -28,26 +28,32 @@ const battleSchema = new Schema({
   },
   history: {
     type: String,
-    required: [true, 'Battle needs a history']
+    // required: [true, 'Battle needs a history']
   },
   geographicDescription: {
     type: String,
-    required: [true, 'Battle needs a geographicDescription']
+    // required: [true, 'Battle needs a geographicDescription']
   },
   geographicLng: {
     type: Number,
+    // required: [true, 'Battle need a position']
   },
   geographicLat: {
     type: Number,
+    // required: [true, 'Battle need a position']
   },
   importantPeople: {
     type: String,
-    required: [true, 'Battle needs important people']
   },
   approved: {
     type: Boolean,
     default: false
-  }
+  },
+  otherFields: [{
+    title: String,
+    body: String,
+    img: String
+  }]
 }, {
   timestamps: true,
   toJSON: {
