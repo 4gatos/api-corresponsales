@@ -74,7 +74,7 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { otherFields, name, country, date, mainImg, backgroundImg, battle, geographicLng, geographicLat } = req.body;
+    const { otherFields, coordinates, name, country, date, mainImg, backgroundImg, battle, geographicDescription, geographicLng, geographicLat, newspaper, historicDetails } = req.body;
     const slug = utils.createSlug(name);
     const correspondantBody = {
       name,
@@ -130,7 +130,7 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { name, country, date, mainImg, backgroundImg, documentationImg, newspaper, battle, historicDetails, coordinates, documentation, documentationLinks, geographicDescription } = req.body;
+    const { name, country, date, mainImg, backgroundImg, newspaper, battle, historicDetails, coordinates, documentation, documentationLinks, geographicDescription } = req.body;
     const correspondantBody = {
       ...(name && { name }),
       ...(country && { country }),
