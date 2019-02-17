@@ -41,17 +41,14 @@ const correspondantSchema = new Schema({
   coordinates : [{
     type: Array,
   }],
-  documentation: {
-    type: String,
-    required: [true, 'Correspondant needs a documentation']
+  geographicLng: {
+    type: Number,
+    required: [true, 'Battle need a position']
   },
-  documentationImg: {
-    type: String,
+  geographicLat: {
+    type: Number,
+    required: [true, 'Battle need a position']
   },
-  documentationLinks: [{
-    type: Map,
-    of: String
-  }],
   battle: {
     type: Schema.Types.ObjectId,
     ref: 'Battle',
@@ -59,7 +56,12 @@ const correspondantSchema = new Schema({
   approved: {
     type: Boolean,
     default: false
-  }
+  },
+  otherFields: [{
+    title: String,
+    body: String,
+    img: String,
+  }]
 }, {
   timestamps: true,
   toJSON: {

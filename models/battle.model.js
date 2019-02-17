@@ -42,9 +42,6 @@ const battleSchema = new Schema({
     type: Number,
     required: [true, 'Battle need a position']
   },
-  importantPeople: {
-    type: String,
-  },
   approved: {
     type: Boolean,
     default: false
@@ -52,7 +49,7 @@ const battleSchema = new Schema({
   otherFields: [{
     title: String,
     body: String,
-    img: String
+    img: String,
   }]
 }, {
   timestamps: true,

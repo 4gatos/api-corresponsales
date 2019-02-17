@@ -74,24 +74,24 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { name, country, date, mainImg, backgroundImg, documentationImg, newspaper, historicDetails, geographicDescription, coordinates, documentation, documentationLinks, battle } = req.body;
+    const { otherFields, name, country, date, mainImg, backgroundImg, battle, geographicLng, geographicLat } = req.body;
     const slug = utils.createSlug(name);
     const correspondantBody = {
       name,
       country,
       date,
       newspaper,
-      geographicDescription,
-      historicDetails,
-      coordinates,
       mainImg,
       backgroundImg,
-      documentation,
-      ...(coordinates && { coordinates }),
-      ...(documentationImg && { documentationImg }),
-      ...(documentationLinks && { documentationLinks }),
       slug,
+      historicDetails,
+      geographicDescription,
+      ...(coordinates && { coordinates }),
+      geographicLng,
+      geographicLat,
       ...(battle && { battle }),
+      ...(req.user.role === 'admin' ? { approved: true } : { approved: false }),
+      otherFields
     };
     const correspondant = new Correspondant(correspondantBody);
     const result = await correspondant.save();
@@ -131,21 +131,20 @@ module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
     const { name, country, date, mainImg, backgroundImg, documentationImg, newspaper, battle, historicDetails, coordinates, documentation, documentationLinks, geographicDescription } = req.body;
-    console.log('coordinates', coordinates);
     const correspondantBody = {
       ...(name && { name }),
       ...(country && { country }),
       ...(date && { date }),
+      ...(newspaper && { newspaper }),
       ...(mainImg && { mainImg }),
       ...(backgroundImg && { backgroundImg }),
-      ...(newspaper && { newspaper }),
       ...(historicDetails && { historicDetails }),
-      ...(coordinates && { coordinates }),
-      ...(documentation && { documentation }),
-      ...(documentationImg && { documentationImg }),
-      ...(documentationLinks && { documentationLinks }),
       ...(geographicDescription && { geographicDescription }),
-      ...(battle && { battle })
+      ...(coordinates && { coordinates }),
+      ...(geographicLng && { geographicLng }),
+      ...(geographicLat && { geographicLat }),
+      ...(battle && { battle }),
+      ...(otherFields && { otherFields }),
     };
 
     const result = await Correspondant.findOneAndUpdate({ slug }, { $set: correspondantBody }, { new: true });

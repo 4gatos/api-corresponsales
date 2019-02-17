@@ -83,7 +83,7 @@ module.exports.disapprove = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription } = req.body;
     const slug = utils.createSlug(name);
     const battleBody = {
       otherFields,
@@ -97,7 +97,6 @@ module.exports.create = async (req, res, next) => {
       geographicLng,
       geographicLat,
       geographicDescription,
-      importantPeople,
       ...(req.user.role === 'admin' ? { approved: true } : { approved: false })
     };
     const battle = new Battle(battleBody);
@@ -137,7 +136,7 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription, importantPeople } = req.body;
+    const { otherFields, name, place, date, duration, mainImg, history, geographicLng, geographicLat, geographicDescription } = req.body;
     const battleBody = {
       ...(otherFields && { otherFields }),
       ...(name && { name }),
@@ -149,7 +148,6 @@ module.exports.edit = async (req, res, next) => {
       ...(geographicDescription && { geographicDescription }),
       ...(geographicLng && { geographicLng }),
       ...(geographicLat && { geographicLat }),
-      ...(importantPeople && { importantPeople })
     };
 
     const result = await Battle.findOneAndUpdate({ slug }, { $set: battleBody }, { new: true });
