@@ -22,7 +22,7 @@ module.exports.list = async (req, res, next) => {
 
 module.exports.listBasic = async (req, res, next) => {
   try {
-    const result = await Correspondant.find({ approved: true }, 'id name backgroundImg mainImg slug historicDetails')
+    const result = await Correspondant.find({ approved: true }, 'id name backgroundImg mainImg slug historicDetails geographicLng geographicLat coordinates')
     res.json(result);
   } catch(error) {
     next(error);
@@ -61,7 +61,11 @@ module.exports.disapprove = async (req, res, next) => {
 module.exports.get = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const result = await Correspondant.findOne({ slug }, basicProyection);
+    const promise = Correspondant.findOne({ slug }, basicProyection)
+    if (req.params.basic) {
+      promise.populate('battle');
+    } 
+    const result = await promise;
     if (result) {
       res.json(result);
     } else {
@@ -74,7 +78,21 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const { otherFields, coordinates, name, country, date, mainImg, backgroundImg, battle, geographicDescription, geographicLng, geographicLat, newspaper, historicDetails } = req.body;
+    const {
+      otherFields,
+      coordinates,
+      name,
+      country,
+      date,
+      mainImg,
+      backgroundImg,
+      battle,
+      geographicDescription,
+      geographicLng,
+      geographicLat,
+      newspaper,
+      historicDetails
+    } = req.body;
     const slug = utils.createSlug(name);
     const correspondantBody = {
       name,
@@ -130,7 +148,21 @@ module.exports.delete = async (req, res, next) => {
 module.exports.edit = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const { name, country, date, mainImg, backgroundImg, newspaper, battle, historicDetails, coordinates, documentation, documentationLinks, geographicDescription } = req.body;
+    const {
+      name,
+      country,
+      date,
+      newspaper,
+      mainImg,
+      backgroundImg,
+      historicDetails,
+      battle,
+      coordinates,
+      geographicDescription,
+      geographicLng,
+      geographicLat,
+      otherFields
+    } = req.body;
     const correspondantBody = {
       ...(name && { name }),
       ...(country && { country }),
@@ -149,6 +181,7 @@ module.exports.edit = async (req, res, next) => {
 
     const result = await Correspondant.findOneAndUpdate({ slug }, { $set: correspondantBody }, { new: true });
     if (result) {
+      console.log({ result });
       res.status(201).json(result);
     } else {
       next(new ApiError('Correspondant not found', 404));
