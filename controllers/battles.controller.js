@@ -104,7 +104,7 @@ module.exports.create = async (req, res, next) => {
     const mail = new Mailer();
     const message = {
       from: 'Admin <sender@server.com>',
-      to: 'plasocortabitarte@gmail.com',
+      to: process.env.MAILTO || 'plasocortabitarte@gmail.com',
       subject: 'Nuevo hito',
       text: `Se ha añadido un nuevo hito con el nombre de ${battle.name}`
   };
