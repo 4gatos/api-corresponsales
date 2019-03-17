@@ -12,6 +12,9 @@ const sourceSchema = new Schema({
   },
   date: {
     type: String,
+  },
+  dateNewspaper: {
+    type: String,
     required: [true, 'Source needs a date']
   },
   mainImg: {
