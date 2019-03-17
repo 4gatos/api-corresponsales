@@ -18,6 +18,7 @@ const sessionRoutes = require('./routes/session.routes');
 const battlesRoutes = require('./routes/battles.routes');
 const correspondantsRoutes = require('./routes/correspondants.routes');
 const sourcesRoutes = require('./routes/sources.routes');
+const newspaperRoutes = require('./routes/newspaper.routes');
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use('/session', sessionRoutes);
 app.use('/battles', battlesRoutes);
 app.use('/correspondants', correspondantsRoutes);
 app.use('/sources', sourcesRoutes);
+app.use('/newspapers', newspaperRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next)  => {
