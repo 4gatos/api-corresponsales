@@ -6,8 +6,8 @@ const originsAllowed = [
   'https://app.corresponsalesdeguerra.com',
   'http://app.corresponsalesdeguerra.com',
   'http://app.corresponsalesdeguerra.com/',
-  'http://localhost:3006',
-  'http://localhost:3000'
+  // 'http://localhost:3006',
+  // 'http://localhost:3000'
 ];
 
 module.exports = {
