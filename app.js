@@ -20,6 +20,7 @@ const correspondantsRoutes = require('./routes/correspondants.routes');
 const sourcesRoutes = require('./routes/sources.routes');
 const groupSourcesRoutes = require('./routes/groupSources.routes');
 const newspaperRoutes = require('./routes/newspaper.routes');
+const imagesRoutes = require('./routes/images.routes');
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use('/correspondants', correspondantsRoutes);
 app.use('/sources', sourcesRoutes);
 app.use('/group-sources', groupSourcesRoutes);
 app.use('/newspapers', newspaperRoutes);
+app.use('/images', imagesRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next)  => {
