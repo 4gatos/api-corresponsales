@@ -7,7 +7,7 @@
     "dev": "DEBUG=api-corresponsales:* nodemon .bin/www"
   },
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "cloudinary": "^1.17.0",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "~1.4.3",
